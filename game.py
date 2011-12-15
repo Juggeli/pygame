@@ -1,10 +1,11 @@
 #/usr/bin/env python
 
-import os, pygame
+import os, pygame, random
 from pygame.locals import *
 from utils import *
 from snowman import SnowMan
 from cross import Cross
+from car import Car
 
 def main():
     pygame.init()
@@ -19,9 +20,10 @@ def main():
     clock = pygame.time.Clock()
     snowman = SnowMan()
     cross = Cross()
-    allsprites = pygame.sprite.RenderPlain((snowman, cross))
-    
-    #pygame.display.update()
+    #car = Car()
+    allsprites = pygame.sprite.Group((snowman, cross))
+    CAREVENT = USEREVENT+1
+    pygame.time.set_timer(CAREVENT, random.randint(60, 240))
 
     while 1:
         clock.tick(60)
@@ -37,6 +39,8 @@ def main():
                 #else:
             elif event.type is MOUSEBUTTONUP:
                 cross.unshoot()
+            elif event.type is CAREVENT:
+                allsprites.add(Car())
 
         allsprites.update()
 
