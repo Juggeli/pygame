@@ -2,7 +2,6 @@ import pygame
 from utils import *
 
 class SnowMan(pygame.sprite.Sprite):
-    """SnowMan"""
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image('snowman.png', -1)
@@ -13,14 +12,12 @@ class SnowMan(pygame.sprite.Sprite):
         self.dizzy = 0
         
     def update(self):
-        """docstring for update"""
         if self.dizzy:
             self._spin()
         else:
             self._walk()
             
     def _walk(self):
-        "move the monkey across the screen, and turn at the ends"
         newpos = self.rect.move((self.move, 0))
         if not self.area.contains(newpos):
             if self.rect.left < self.area.left or self.rect.right > self.area.right:
@@ -30,7 +27,6 @@ class SnowMan(pygame.sprite.Sprite):
         self.rect = newpos
 
     def _spin(self):
-        "spin the monkey image"
         center = self.rect.center
         self.dizzy += 12
         if self.dizzy >= 360:
@@ -41,8 +37,7 @@ class SnowMan(pygame.sprite.Sprite):
             self.image = rotate(self.original, self.dizzy)
         self.rect = self.image.get_rect(center=center)
 
-    def punched(self):
-        "this will cause the monkey to start spinning"
+    def shooted(self):
         if not self.dizzy:
             self.dizzy = 1
             self.original = self.image

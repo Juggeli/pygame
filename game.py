@@ -4,20 +4,22 @@ import os, pygame
 from pygame.locals import *
 from utils import *
 from snowman import SnowMan
+from cross import Cross
 
 def main():
     pygame.init()
 
     size = width, height = 1152, 648
-
     screen = pygame.display.set_mode(size)
+    pygame.mouse.set_visible(0)
 
     background = pygame.image.load('data/bg.png').convert()
     screen.blit(background, (0, 0))
     
     clock = pygame.time.Clock()
     snowman = SnowMan()
-    allsprites = pygame.sprite.RenderPlain((snowman))
+    cross = Cross()
+    allsprites = pygame.sprite.RenderPlain((snowman, cross))
     
     #pygame.display.update()
 
@@ -29,14 +31,12 @@ def main():
                 return
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
-            # elif event.type == MOUSEBUTTONDOWN:
-            #     if fist.punch(chimp):
-            #         punch_sound.play() #punch
-            #         chimp.punched()
-            #     else:
-            #         whiff_sound.play() #miss
-            # elif event.type is MOUSEBUTTONUP:
-            #     fist.unpunch()
+            elif event.type == MOUSEBUTTONDOWN:
+                if cross.shoot(snowman):
+                    snowman.shooted()
+                #else:
+            elif event.type is MOUSEBUTTONUP:
+                cross.unshoot()
 
         allsprites.update()
 
