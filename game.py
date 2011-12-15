@@ -1,17 +1,48 @@
-import sys, pygame
-pygame.init();
+#/usr/bin/env python
 
-size = width, height = 1152, 648
+import os, pygame
+from pygame.locals import *
+from utils import *
+from snowman import SnowMan
 
-screen = pygame.display.set_mode(size)
+def main():
+    pygame.init()
 
-background = pygame.image.load('bg.png').convert()
-snowman = pygame.image.load('snowman.png').convert()
-screen.blit(background, (0, 0))
+    size = width, height = 1152, 648
 
-pygame.display.update()
+    screen = pygame.display.set_mode(size)
 
-while 1:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT: sys.exit()
-		
+    background = pygame.image.load('data/bg.png').convert()
+    screen.blit(background, (0, 0))
+    
+    clock = pygame.time.Clock()
+    snowman = SnowMan()
+    allsprites = pygame.sprite.RenderPlain((snowman))
+    
+    #pygame.display.update()
+
+    while 1:
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return
+            elif event.type == KEYDOWN and event.key == K_ESCAPE:
+                return
+            # elif event.type == MOUSEBUTTONDOWN:
+            #     if fist.punch(chimp):
+            #         punch_sound.play() #punch
+            #         chimp.punched()
+            #     else:
+            #         whiff_sound.play() #miss
+            # elif event.type is MOUSEBUTTONUP:
+            #     fist.unpunch()
+
+        allsprites.update()
+
+        screen.blit(background, (0, 0))
+        allsprites.draw(screen)
+        pygame.display.flip()
+
+if __name__ == '__main__':
+    main()
