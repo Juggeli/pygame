@@ -21,9 +21,10 @@ def main():
     snowman = SnowMan()
     cross = Cross()
     #car = Car()
-    allsprites = pygame.sprite.Group((snowman, cross))
+    uisprites = pygame.sprite.Group((cross))
+    shootables = pygame.sprite.Group((snowman))
     CAREVENT = USEREVENT+1
-    pygame.time.set_timer(CAREVENT, random.randint(60, 240))
+    pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
 
     while 1:
         clock.tick(60)
@@ -34,18 +35,22 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                if cross.shoot(snowman):
-                    snowman.shooted()
+                for shootable in shootables:
+                    if cross.shoot(shootable):
+                        shootable.shooted()
                 #else:
             elif event.type is MOUSEBUTTONUP:
                 cross.unshoot()
             elif event.type is CAREVENT:
-                allsprites.add(Car())
-
-        allsprites.update()
+                pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
+                shootables.add(Car())
+                
+        uisprites.update()
+        shootables.update()
 
         screen.blit(background, (0, 0))
-        allsprites.draw(screen)
+        uisprites.draw(screen)
+        shootables.draw(screen)
         pygame.display.flip()
 
 if __name__ == '__main__':

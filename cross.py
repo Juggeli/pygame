@@ -16,7 +16,8 @@ class Cross(pygame.sprite.Sprite):
     def shoot(self, target):
         if not self.shooting:
             self.shooting = 1
-            hitbox = self.rect.inflate(-5, -5)
+            #hitbox = self.rect.inflate(-5, -5)
+            hitbox = self.rect.inflate(0, 0)
             return hitbox.colliderect(target.rect)
 
     def unshoot(self):
