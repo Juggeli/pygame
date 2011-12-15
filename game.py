@@ -30,6 +30,8 @@ def main():
     shootables = pygame.sprite.Group((snowman))
     CAREVENT = USEREVENT+1
     pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
+    pygame.mixer.music.load('data/music/08.mp3')
+    pygame.mixer.music.play(-1)
 
     while 1:
         clock.tick(60)
