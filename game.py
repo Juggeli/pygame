@@ -17,8 +17,10 @@ def main():
     size = width, height = 1152, 648
     moveRight = 0
     moveLeft = 0
+    points = 10
+    timer = 30
+    running = 1
     screen = pygame.display.set_mode(size)
-    pygame.mouse.set_visible(0)
 
     background = pygame.image.load('E:/Koodi/Python/pygame/data/bg.png').convert()
     screen.blit(background, (0, 0))
@@ -29,17 +31,15 @@ def main():
     
     clock = pygame.time.Clock()
     snowman = SnowMan()
-    #cross = Cross()
     heli = Helicopter()
-    #ball = Ball()
-    #car = Car()
     uisprites = pygame.sprite.Group((heli))
     shootables = pygame.sprite.Group((snowman))
-    #helisprite = pygame.sprite.Group((heli))
     CAREVENT = USEREVENT+1
+    TIMEEVENT = USEREVENT+2
+    
     pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
-
-    while 1:
+    pygame.time.set_timer(TIMEEVENT, 1000)
+    while running:
         clock.tick(60)
 
         for event in pygame.event.get():
@@ -54,47 +54,58 @@ def main():
                 print "left"
                 moveLeft = 1
             elif event.type == KEYDOWN and event.key == K_SPACE:
+                points = points-1
                 uisprites.add(Ball(heli.rect.right-65))
                 print "space"
             elif event.type == KEYUP and event.key == K_LEFT:
                 moveLeft = 0
             elif event.type == KEYUP and event.key == K_RIGHT:
                 moveRight = 0
-            #elif event.type == MOUSEBUTTONDOWN:
-                #for shootable in pygame.sprite.spritecollide(cross, shootables, 0):
-                    #print "shoot"
-                    #shootable.shooted()
-                    #boom.play()
-
-            #elif event.type is MOUSEBUTTONUP:
-                #print "unshoot"
-                #cross.unshoot()
                 
             elif event.type is CAREVENT:
                 pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
                 shootables.add(Car())
+            elif event.type is TIMEEVENT:
+                timer = timer - 1
+                if timer == 0:
+                    running = 0
                 
         if moveRight:
             heli.moveRight()
-            #ball.moveRight()
         elif moveLeft:
             heli.moveLeft()
-            #ball.moveLeft()
             
-        for shootable in pygame.sprite.groupcollide(uisprites, shootables, 1, 1):
+        for shootable in pygame.sprite.groupcollide(shootables, uisprites , 1, 1):
             print "shoot"
             shootable.shooted()
+            print shootable.rnd
+            if shootable.rnd == 5:
+                points = points + 1
+            elif shootable.rnd == 0:
+                points = points - 10
+            elif shootable.rnd == 2 or shootable.rnd == 3:
+                points = points + 2
+            else:
+                points = points + 5
             boom.play()
-        
+            
+        font = pygame.font.Font(None, 30)
+        text = font.render('Points '+str(points), 1, (255,
+        255, 255))
+        timetext = font.render('Time: '+str(timer), 1, (255,
+        255, 255))
+
         shootables.update()
         uisprites.update()
-        #helisprite.update()
         screen.blit(background, (0, 0))
+        screen.blit(text, (1000, 50))
+        screen.blit(timetext, (1000, 80))
         
         shootables.draw(screen)
         uisprites.draw(screen)
-        #helisprite.draw(screen)
         pygame.display.flip()
+        
+    raw_input('Press Enter...')
 
 if __name__ == '__main__':
     main()

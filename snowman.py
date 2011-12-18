@@ -13,6 +13,7 @@ class SnowMan(pygame.sprite.Sprite):
         self.dizzy = 0
         self.stopped = 0
         self.count = 0
+        self.rnd = 4
         
     def update(self):
         self.count += 1

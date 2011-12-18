@@ -4,14 +4,14 @@ from utils import *
 class Car(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        rnd = random.randint(0,3)
-        if rnd == 0: 
+        self.rnd = random.randint(0,3)
+        if self.rnd == 0: 
             self.image, self.rect = load_image('fedex_car.png', -1)
-        elif rnd == 1:
+        elif self.rnd == 1:
             self.image, self.rect = load_image('car.png', -1)
-        elif rnd == 2: 
+        elif self.rnd == 2: 
             self.image, self.rect = load_image('car_trailer.png', -1)
-        elif rnd == 3: 
+        elif self.rnd == 3: 
             self.image, self.rect = load_image('car_trailer_green.png', -1)
         
         
