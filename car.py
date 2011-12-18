@@ -18,7 +18,7 @@ class Car(pygame.sprite.Sprite):
         
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.image = pygame.transform.flip(self.image, 1, 0)
+        #self.image = pygame.transform.flip(self.image, 1, 0)
         #self.area = pygame.Rect(0, 150, 400, 100)
         self.rect.topleft = -self.rect.width, 425
         self.speed = 9
