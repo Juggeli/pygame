@@ -16,10 +16,11 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.mouse.set_visible(0)
 
-    background = pygame.image.load('data/bg.png').convert()
+    background = pygame.image.load('E:/Koodi/Python/pygame/data/bg.png').convert()
     screen.blit(background, (0, 0))
     
-    pygame.mixer.music.load('data/music/08.mp3')
+    pygame.mixer.music.load('E:/Koodi/Python/pygame/data/music/08.mp3')
+    boom = pygame.mixer.Sound('E:/Koodi/Python/pygame/data/music/explosion-02.wav')
     pygame.mixer.music.play(-1)
     
     clock = pygame.time.Clock()
@@ -30,8 +31,6 @@ def main():
     shootables = pygame.sprite.Group((snowman))
     CAREVENT = USEREVENT+1
     pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
-    pygame.mixer.music.load('data/music/08.mp3')
-    pygame.mixer.music.play(-1)
 
     while 1:
         clock.tick(60)
@@ -42,22 +41,26 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                for shootable in shootables:
-                    if cross.shoot(shootable):
-                        shootable.shooted()
-                #else:
+                for shootable in pygame.sprite.spritecollide(cross, shootables, 0):
+                    print "shoot"
+                    shootable.shooted()
+                    boom.play()
+
             elif event.type is MOUSEBUTTONUP:
+                print "unshoot"
                 cross.unshoot()
             elif event.type is CAREVENT:
                 pygame.time.set_timer(CAREVENT, random.randint(600, 1000))
                 shootables.add(Car())
                 
-        uisprites.update()
+        
         shootables.update()
-
+        uisprites.update()
+        
         screen.blit(background, (0, 0))
-        uisprites.draw(screen)
+        
         shootables.draw(screen)
+        uisprites.draw(screen)
         pygame.display.flip()
 
 if __name__ == '__main__':

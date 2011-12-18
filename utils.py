@@ -2,7 +2,7 @@ import os, pygame
 from pygame.locals import *
     
 def load_image(name, colorkey=None):
-    fullname = os.path.join('data', name)
+    fullname = os.path.join('E:/Koodi/Python/pygame/data', name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error, message:

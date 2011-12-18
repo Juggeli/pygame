@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from utils import *
 
 class Car(pygame.sprite.Sprite):
@@ -10,7 +10,7 @@ class Car(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, 1, 0)
         #self.area = pygame.Rect(0, 150, 400, 100)
         self.rect.topleft = -self.rect.width, 425
-        self.speed = 9
+        self.speed = 5
         self.driving = 1
         
     def update(self):
